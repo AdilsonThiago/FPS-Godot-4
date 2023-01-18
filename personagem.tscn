@@ -1,10 +1,133 @@
-[gd_scene load_steps=3 format=3 uid="uid://dach4ww16n5na"]
+[gd_scene load_steps=9 format=3 uid="uid://dach4ww16n5na"]
 
 [ext_resource type="Script" path="res://personagem.gd" id="1_x6wpd"]
+[ext_resource type="PackedScene" uid="uid://bktg3cdlnlwpt" path="res://gun/gun.glb" id="2_ain33"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rwfsi"]
 radius = 0.25
 height = 1.0
+
+[sub_resource type="Animation" id="Animation_v282x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D/gun:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.231785, -0.205432, -0.320364)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D/gun:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.237365, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jbsi5"]
+resource_name = "andando"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D/gun:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.231785, -0.205432, -0.320364), Vector3(0.158493, -0.218467, -0.305653)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D/gun:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.237365, 0, 0), Vector3(-0.441568, 0.230383, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4w57t"]
+resource_name = "atirando"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D/gun:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.34732, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D/gun:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.231785, -0.205432, -0.320364), Vector3(0.231785, -0.179617, -0.320364)]
+}
+
+[sub_resource type="Animation" id="Animation_di0ff"]
+resource_name = "parado"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D/gun:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.231785, -0.205432, -0.320364), Vector3(0.231785, -0.21821, -0.321203)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D/gun:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.237365, 0, 0), Vector3(-0.31765, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pa34r"]
+_data = {
+"RESET": SubResource("Animation_v282x"),
+"andando": SubResource("Animation_jbsi5"),
+"atirando": SubResource("Animation_4w57t"),
+"parado": SubResource("Animation_di0ff")
+}
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.516888, 0)
@@ -15,3 +138,12 @@ shape = SubResource("CapsuleShape3D_rwfsi")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.251795, 0)
+
+[node name="gun" parent="Camera3D" instance=ExtResource("2_ain33")]
+transform = Transform3D(0.017, 0, 0, 0, 0.0165233, 0.00399743, 0, -0.00399741, 0.0165234, 0.231785, -0.205432, -0.320364)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "parado"
+libraries = {
+"": SubResource("AnimationLibrary_pa34r")
+}

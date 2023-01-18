@@ -6,6 +6,9 @@ const JUMP_VELOCITY = 4.5 #define velocidade de pulo
 # Pega a gravidade direto das configurações do projeto
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var sensibilidade = 0.5 #sensibilidade do mouse
+var animacao_atual = "parado"
+var nova_animacao = animacao_atual
+var intervalo_tiro = 0
 
 func _ready():
 	#iniciar gravação do mouse
@@ -26,6 +29,26 @@ func _input(event):
 	elif event.is_action_pressed("b_sair"):
 		#a endtrada do jogador foi o botão de sair
 		get_tree().quit()#simplesmente encerra o jogo
+	if event.is_action_pressed("mouse_besquerdo"):
+		shoot()
+	pass
+
+func shoot():
+	if intervalo_tiro <= 0:
+		nova_animacao = "atirando"
+		intervalo_tiro = 0.4
+	pass
+
+func animacao():
+	if not nova_animacao == animacao_atual:
+		$AnimationPlayer.play(nova_animacao)
+		animacao_atual = nova_animacao
+	pass
+
+func _process(delta):
+	if intervalo_tiro > 0:
+		intervalo_tiro -= delta
+	animacao()
 	pass
 
 func _physics_process(delta):
@@ -37,6 +60,11 @@ func _physics_process(delta):
 	var vetor_lado = transform.basis.x * axys.x
 	#Somando os vetores, normalizando, e aplicando a velocidade
 	var vetor_final = (vetor_frente + vetor_lado).normalized() * SPEED
+	if intervalo_tiro <= 0:
+		if not axys.x == 0 or not axys.y == 0:
+			nova_animacao = "andando"
+		else:
+			nova_animacao = "parado"
 	if is_on_floor():
 		#Se estiver no chão a gravidade é zerada
 		velocity.y = 0
