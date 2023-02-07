@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://biussmscgblla"]
+[gd_scene load_steps=7 format=3 uid="uid://biussmscgblla"]
 
 [ext_resource type="Texture2D" uid="uid://bn7sqps5dbtgn" path="res://textures/9cc52a4e9ea7e750b8f103d3deedc5f6.jpg" id="1_jr68q"]
 [ext_resource type="PackedScene" uid="uid://dach4ww16n5na" path="res://personagem.tscn" id="2_yxvt7"]
+[ext_resource type="PackedScene" uid="uid://cwle0npxruob8" path="res://aranha.tscn" id="3_wjwuw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhhjl"]
 albedo_texture = ExtResource("1_jr68q")
@@ -26,3 +27,6 @@ mesh = SubResource("PlaneMesh_hrdad")
 shape = SubResource("ConcavePolygonShape3D_x75uf")
 
 [node name="Personagem" parent="." instance=ExtResource("2_yxvt7")]
+
+[node name="spider-model" parent="." instance=ExtResource("3_wjwuw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.187744, 0.330192, -7.51634)

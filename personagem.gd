@@ -9,6 +9,7 @@ var sensibilidade = 0.5 #sensibilidade do mouse
 var animacao_atual = "parado"
 var nova_animacao = animacao_atual
 var intervalo_tiro = 0
+var packed_bala = preload("res://bala.tscn")
 
 func _ready():
 	#iniciar gravação do mouse
@@ -35,6 +36,10 @@ func _input(event):
 
 func shoot():
 	if intervalo_tiro <= 0:
+		var o = packed_bala.instantiate()
+		get_parent().add_child(o)
+		o.position = position
+		o.atirar(Vector3($Camera3D.rotation.x, rotation.y, 0))
 		nova_animacao = "atirando"
 		intervalo_tiro = 0.4
 	pass
